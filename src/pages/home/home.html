@@ -7,42 +7,57 @@
 <ion-header>
 
   <ion-navbar color = "primary">
-    <ion-title>weather<small></small></ion-title>
+    <ion-title>
+
+    </ion-title> 
+    <ion-searchbar
+      debounce = "700"
+      [(ngModel)]="searchedCity"
+      [showCancelButton]="shouldShowCancel"
+      (ionInput)="onInput($event)"
+      (ionCancel)="onCancel($event)"
+    >
+    </ion-searchbar>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding id = "main">
+<ion-content id = "main">
     <ion-refresher (ionRefresh)="doRefresh($event)">
       <ion-refresher-content  pullingText="Pull to refresh"
       refreshingSpinner="circles">
-
       </ion-refresher-content>
     </ion-refresher>
   <ion-card id = "card">
-    <ion-icon class = "w-icon" name = "sunny" *ngIf = "weatherData?.weather[0].id == 800"></ion-icon>
-    <ion-icon class = "w-icon" name = "rainy" *ngIf = "weatherData?.weather[0].id > 499  && weatherData?.weather[0].id < 532"></ion-icon>
-    <ion-icon class = "w-icon" name = "thunderstorm" *ngIf = "weatherData?.weather[0].id > 199 && weatherData?.weather[0].id < 235"></ion-icon>
-    <ion-icon class = "w-icon" name = "cloudy" *ngIf ="weatherData?.weather[0].id > 800 && weatherData?.weather[0].id < 805" ></ion-icon>
-    <div id = "description">{{weatherData?.weather[0].description}}</div>
-    <div id = "max"><small>LOWS</small> {{ weatherData?.main.temp_min - 273.15 | number }} &#8451;</div>
-    <div id = "min"><small>HIGHS</small> {{ weatherData?.main.temp_max - 273.15  | number }} &#8451;</div>
+    <h3>{{weatherData?.name}} .{{ weatherData?.sys.country}}</h3>
+    <ion-icon class = "w-icon" id = "spin" name = "sunny" *ngIf = "weatherData?.weather[0].main === 'Clear'"></ion-icon>
+    <ion-icon class = "w-icon" id = "shake" name = "rainy" *ngIf = "weatherData?.weather[0].main === 'Drizzle' || weatherData?.weather.main == 'Rain'"></ion-icon>
+    <ion-icon class = "w-icon" id = "shake" name = "thunderstorm" *ngIf = "weatherData?.weather[0].main === 'Thunderstorm'"></ion-icon>
+    <ion-icon class = "w-icon" id = "shake" name = "cloudy" *ngIf ="weatherData?.weather[0].main === 'Clouds'" ></ion-icon>
+    <div id = "description">{{weatherData?.weather[0].description}} <br>
+      <b>{{ weatherData?.main.temp - 273.15 | number : '2.0-0' }}&#8451;</b>
+    </div>
+    <div id = "max"><small>LOWS</small> {{ weatherData?.main.temp_min - 273.15 | number : '2.0-0'}} &#8451;</div>
+    <div id = "min"><small>HIGHS</small> {{ weatherData?.main.temp_max - 273.15  | number : '2.0-0' }} &#8451;</div>
     <ion-item>
-        <ion-label>City</ion-label>
-        <ion-select [(ngModel)]="city" (ngModelChange) = "cityUpdate()">
-          <ion-option value="Pretoria">Pretoria</ion-option>
-          <ion-option value="Cape Town">Cape Town</ion-option>
-          <ion-option value="Durban">Durban</ion-option>
-          <ion-option value="Port Elizabeth">Port Elizabeth</ion-option>
-          <ion-option value="Tzaneen">Tzaneen</ion-option>
-        </ion-select>
-      </ion-item>
+      <ion-label>City</ion-label>
+      <ion-select [(ngModel)]="city" (ngModelChange) = "cityUpdate()">
+        <ion-option  *ngFor="let selectCity of cities"  [value]="selectCity">{{selectCity}}</ion-option>
+      </ion-select>
+    </ion-item>
   </ion-card>
-  <ion-card id = "time">
-      <small> {{ weatherData?.name}}</small> <br> <br>
-      {{ dateObj | date }}
-     
-  </ion-card>
+  <ion-list >
+    <ion-item>
+        pressure <b>{{ weatherData?.main.pressure}}</b>
+    </ion-item>
+    <ion-item>
+        humidity <b>{{ weatherData?.main.humidity}}</b>
+    </ion-item>
+    <ion-item>
+        windspeed <b>{{ weatherData?.wind.speed}}km</b>
+    </ion-item>
+  </ion-list>
+  
   
 </ion-content>
