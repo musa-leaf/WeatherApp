@@ -37,13 +37,13 @@ page-home {
             font-size: 15pt !important;
             letter-spacing: 10px;
             text-transform: uppercase;
+            
         }
         .w-icon{
 
             font-size:  160px;
             display: block;
             text-align: center;
-            animation: pulse 800ms ease;
             padding-top: 10px;
             line-height: 40%;
             padding: 60px 0 ;
@@ -106,7 +106,7 @@ page-home {
     }
 
     @keyframes rot {
-        50%{
+        100%{
             transform: rotate(360deg);
         }
     }

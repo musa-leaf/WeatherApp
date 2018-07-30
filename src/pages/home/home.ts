@@ -69,6 +69,7 @@ export class HomePage {
 
         this.toast("the city you have entered is invalid");
         this.city = this.cities[0];
+        this.retrieve();
 
       }
     );

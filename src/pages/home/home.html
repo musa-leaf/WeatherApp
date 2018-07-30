@@ -11,10 +11,10 @@
 
     </ion-title> 
     <ion-searchbar
-      debounce = "700"
+      debounce = "20 00"
       [(ngModel)]="searchedCity"
       [showCancelButton]="shouldShowCancel"
-      (ionInput)="onInput($event)"
+      (search)="onInput($event)"
       (ionCancel)="onCancel($event)"
     >
     </ion-searchbar>
@@ -32,9 +32,9 @@
   <ion-card id = "card">
     <h3>{{weatherData?.name}} .{{ weatherData?.sys.country}}</h3>
     <ion-icon class = "w-icon" id = "spin" name = "sunny" *ngIf = "weatherData?.weather[0].main === 'Clear'"></ion-icon>
-    <ion-icon class = "w-icon" id = "shake" name = "rainy" *ngIf = "weatherData?.weather[0].main === 'Drizzle' || weatherData?.weather.main == 'Rain'"></ion-icon>
+    <ion-icon class = "w-icon" id = "shake" name = "rainy" *ngIf = "weatherData?.weather[0].main === 'Drizzle' || weatherData?.weather[0].main == 'Rain'"></ion-icon>
     <ion-icon class = "w-icon" id = "shake" name = "thunderstorm" *ngIf = "weatherData?.weather[0].main === 'Thunderstorm'"></ion-icon>
-    <ion-icon class = "w-icon" id = "shake" name = "cloudy" *ngIf ="weatherData?.weather[0].main === 'Clouds'" ></ion-icon>
+    <ion-icon class = "w-icon" id = "shake" name = "cloudy" *ngIf ="weatherData?.weather[0].main === 'Clouds' || weatherData?.weather[0].main === 'Mist'" ></ion-icon>
     <div id = "description">{{weatherData?.weather[0].description}} <br>
       <b>{{ weatherData?.main.temp - 273.15 | number : '2.0-0' }}&#8451;</b>
     </div>
